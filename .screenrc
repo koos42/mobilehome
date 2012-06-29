@@ -1,0 +1,16 @@
+bindkey -d ^? stuff ^H
+bindkey -d ^@ stuff ^H
+
+vbell off
+
+# Don't display the copyright page
+startup_message off
+
+#screen -t wpn_rails_logs tail -f /opt/wp/log/wpn_rails/*.log
+#screen -t bs_logs tail -f /opt/wp/business_search/*.log
+
+# THIS IS THE PRETTY BIT
+#change the hardstatus settings to give an window list at the bottom of the                                                                        
+##screen, with the time and date and with the current window highlighted                                                                            
+hardstatus             alwayslastline                                                                                                                          
+hardstatus string '%{= kW}[ %{W}%H ][%= %{= kw}%?%-Lw%? %{= Wk} %n*%f%t%?(%u)%? %{= kw} %?%+Lw%?%?%= ][%{W} %y/%d/%m %c ]'

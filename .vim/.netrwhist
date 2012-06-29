@@ -1,0 +1,4 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_1='/home/kkleven/dev/config/conf/target/dev/host/kkleven1'
+let g:netrw_dirhist_2='/home/kkleven/dev/web/wpn_rails'
