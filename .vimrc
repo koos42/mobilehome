@@ -43,3 +43,7 @@ function! Equalize()
   set winwidth=24
   exe "normal! \<c-w>="
 endfunction
+
+" load pathogen
+execute pathogen#infect()
+
