@@ -1,0 +1,1 @@
+supertab.vmb: call delete('/Users/koos/.vim/bundle/ctrlp.vim/doc/supertab.txt')|call delete('/Users/koos/.vim/bundle/ctrlp.vim/plugin/supertab.vim')
