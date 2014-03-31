@@ -20,7 +20,13 @@ set t_kB=[Z
 
 " setup ctrlp
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$|bundle|vendor',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+  \ }
 
+" mark the 81st column of text
 set colorcolumn=81
 :hi ColorColumn guibg=#AAAAAA ctermbg=254
 
@@ -46,4 +52,18 @@ endfunction
 
 " load pathogen
 execute pathogen#infect()
+
+" remove trailing whitespace
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+
+" System Yank: will copy into the system clipboard on OS X
+vmap sy :w !pbcopy<CR><CR>
+
 
