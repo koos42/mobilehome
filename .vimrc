@@ -81,7 +81,7 @@ function! RunTests(filename)
     :w
     :silent !echo;echo;echo;echo;echo
     let rspec_bin = FindRSpecBinary(".")
-    exec ":!time NOEXEC=0 " . rspec_bin . a:filename " --backtrace"
+    exec ":!time NOEXEC=0 RACK_ENV='development' " . rspec_bin . a:filename " --backtrace"
 endfunction
 
 function! FindRSpecBinary(dir)
@@ -124,9 +124,22 @@ function! RunNearestTest()
     call RunTestFile(":" . spec_line_number)
 endfunction
 
+function! RunNextFailureWithDebugger()
+  call RunTests('spec -rdebugger --next-failure', '')
+endfunction
+
+function! RunNextWithDebugger()
+  call RunTestFile(' -rbyebug -rpry')
+endfunction
+
 " Run this file
 map <leader>m :call RunTestFile()<cr>
+" Run nearest test with debugger on
+map <leader>n :call RunNextWithDebugger()<cr>
 " Run only the example under the cursor
 map <leader>. :call RunNearestTest()<cr>
 " Run all test files
 map <leader>a :call RunTests('spec')<cr>
+" Run with debugger on for next failure
+map <leader>f :call RunNextFailureWithDebugger()<cr>
+
