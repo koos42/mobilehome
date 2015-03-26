@@ -39,8 +39,30 @@ backgW="\[\033[47m\]"
 
 export PS1="\[$textC$backgK\]\u@\h\[$textM$backgK\] \w\[$textY$backgK\]\$(__git_ps1)\[$textB\] \$\[\033[00m\] "
 
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+source /usr/local/share/chruby/chruby.sh
+source /usr/local/share/chruby/auto.sh
 
 # Setting PATH for MacPython 2.5
 # The orginal version is saved in .bash_profile.pysave
 PATH="/Library/Frameworks/Python.framework/Versions/Current/bin:${PATH}"
 export PATH
+
+### Env variables for ruby stuff ###
+export RUBY_GC_MALLOC_LIMIT=90000000
+export RUBY_FREE_MIN=200000
+export RUBY_GC_HEAP_FREE_SLOTS=200000
+export RUBYOPT=rubygems
+
+### Added by the Heroku Toolbelt ###
+export PATH="/usr/local/heroku/bin:$PATH"
+
+### aliases ###
+alias bunstubs="bundle install --standalone --binstubs"
+
+### Env variabls for Vanguard deployment ###
+export PATH=$PATH:~/bin/ec2-api-tools-1.3-57419/bin
+export EC2_HOME=~/bin/ec2-api-tools-1.3-57419
+export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home
+
+export HOMEBREW_GITHUB_API_TOKEN=`cat ~/.homebrew_github_api_token`
