@@ -87,7 +87,10 @@ function! RunTests(filename, env_vars)
     if is_python
       call Send_to_Tmux("time py.test " . a:filename . "\n")
     elseif is_mix_project
-      exec ":!time mix test " . a:filename . " --trace"
+      " cd into app directory one folder above test dir
+      let path = split(a:filename, 'test.*')[0]
+      let test_file = split(a:filename, l:path)[0]
+      exec ":! pushd " . l:path . "; time mix test " . l:test_file . " --trace; popd"
     elseif is_elixir
       exec ":!time elixir " . a:filename
     else
