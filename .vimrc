@@ -69,19 +69,31 @@ autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call <
 " System Yank: will copy into the system clipboard on OS X
 vmap sy :w !pbcopy<CR><CR>
 
-
-" RSpec test helpers.
-" Originals from Gary Bernhardt's screen cast:
+" Test helpers from Gary Bernhardt's screen cast:
 " https://www.destroyallsoftware.com/screencasts/catalog/file-navigation-in-vim
 " https://www.destroyallsoftware.com/file-navigation-in-vim.html
-" Modified by Myron Marston:
-" https://github.com/myronmarston/vim_files
-function! RunTests(filename)
+function! RunTests(filename, env_vars)
     " Write the file and run tests for the given filename
     :w
-    :silent !echo;echo;echo;echo;echo
-    let rspec_bin = FindRSpecBinary(".")
-    exec ":!time NOEXEC=0 RACK_ENV='development' " . rspec_bin . a:filename " --backtrace"
+
+    let is_mix_project = filereadable("./mix.exs")
+    let is_elixir = match(a:filename, '_test.exs$') != -1
+    let is_python = match(a:filename, '.py$') != -1
+
+    if !is_python
+      :silent !echo;echo;echo;
+    end
+
+    if is_python
+      call Send_to_Tmux("time py.test " . a:filename . "\n")
+    elseif is_mix_project
+      exec ":!time mix test " . a:filename . " --trace"
+    elseif is_elixir
+      exec ":!time elixir " . a:filename
+    else
+      let rspec_bin = FindRSpecBinary(".")
+      exec ":!time NOEXEC=0 " . a:env_vars . rspec_bin . a:filename
+    end
 endfunction
 
 function! FindRSpecBinary(dir)
@@ -102,44 +114,48 @@ function! SetTestFile()
     let t:grb_test_file=@%
 endfunction
 
-function! RunTestFile(...)
-    if a:0
-        let command_suffix = a:1
-    else
-        let command_suffix = ""
-    endif
+function! ConditionallySetTestFile()
+    let in_spec_file   = match(expand("%"), '_spec.rb$') != -1
+    let in_elixir_file = match(expand("%"), '_test.exs$') != -1
+    let in_python_test_file = match(expand("%"), 'test.\+\.py$') != -1
 
-    " Run the tests for the previously-marked file.
-    let in_spec_file = match(expand("%"), '_spec.rb$') != -1
-    if in_spec_file
+    if in_spec_file || in_elixir_file || in_python_test_file
         call SetTestFile()
-    elseif !exists("t:grb_test_file")
+    end
+endfunction
+
+function! RunTestFile(command_suffix, env_vars)
+    call ConditionallySetTestFile()
+
+    if !exists("t:grb_test_file")
+        exec "!echo 'No test file set'"
         return
     end
-    call RunTests(t:grb_test_file . command_suffix)
+
+    call RunTests(t:grb_test_file . a:command_suffix, a:env_vars)
 endfunction
 
+" Bind test runners to keys.
 function! RunNearestTest()
     let spec_line_number = line('.')
-    call RunTestFile(":" . spec_line_number)
+    call RunTestFile(":" . spec_line_number, "")
 endfunction
-
-function! RunNextFailureWithDebugger()
-  call RunTests('spec -rdebugger --next-failure', '')
-endfunction
-
-function! RunNextWithDebugger()
-  call RunTestFile(' -rbyebug -rpry')
-endfunction
-
-" Run this file
-map <leader>m :call RunTestFile()<cr>
-" Run nearest test with debugger on
-map <leader>n :call RunNextWithDebugger()<cr>
 " Run only the example under the cursor
 map <leader>. :call RunNearestTest()<cr>
-" Run all test files
-map <leader>a :call RunTests('spec')<cr>
-" Run with debugger on for next failure
+
+function! RunTestFileWithDebugger()
+    call RunTestFile(' -rdebugger', "")
+endfunction
+map <leader>b :call RunTestFileWithDebugger()<cr>
+
+function! RunNextFailureWithDebugger()
+    call RunTests('spec -rdebugger --next-failure', '')
+endfunction
 map <leader>f :call RunNextFailureWithDebugger()<cr>
+
+function! RunTestFileWithoutDebugger()
+    call RunTestFile('', "")
+endfunction
+" Run this file
+map <leader>m :call RunTestFileWithoutDebugger()<cr>
 
