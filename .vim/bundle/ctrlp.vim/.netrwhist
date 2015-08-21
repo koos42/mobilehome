@@ -1,9 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
-let g:netrw_dirhist_1='/Users/koos/.moz'
-let g:netrw_dirhist_2='/Users/koos/code/brainscraper/.git'
-let g:netrw_dirhist_3='/Users/koos/code/vanguard/lib/jobs/janitor'
-let g:netrw_dirhist_4='/Users/koos/code/vanguard_side/lib/console'
-let g:netrw_dirhist_5='/Users/koos/code/vanguard/spec/vcr_cassettes/Metrics_JobBatchTimer'
-let g:netrw_dirhist_6='/Users/koos/.vim'
-let g:netrw_dirhist_7='/Users/koos/mobilehome/.vim/bundle/ctrlp.vim'
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/Users/koos/code/vanguard_side/lib/shard_creation/prioritizer'
+let g:netrw_dirhist_2='/Users/koos/code/vanguard/bundle/ruby/2.1.0/bundler/gems/mozmail_client-6ee29344640d'
+let g:netrw_dirhist_3='/Users/koos/code/vanguard/spec/spec_helpers'
+let g:netrw_dirhist_4='/Users/koos/code/Analytics-Production-Support/one_offs/all_campaigns_for_given_keywords.rb'
+let g:netrw_dirhist_5='/Users/koos/mobilehome'
