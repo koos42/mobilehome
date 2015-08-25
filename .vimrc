@@ -29,9 +29,11 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
   \ }
 
+colorscheme elflord
+
 " mark the 81st column of text
 set colorcolumn=81
-:hi ColorColumn guibg=#AAAAAA ctermbg=254
+:hi ColorColumn guibg=#444444 ctermbg=238
 
 " ruby
 autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
