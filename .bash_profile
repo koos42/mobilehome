@@ -37,16 +37,7 @@ backgM="\[\033[45m\]"
 backgC="\[\033[46m\]"
 backgW="\[\033[47m\]"
 
-export PS1="\[$textC$backgK\]\u@\h\[$textM$backgK\] \w\[$textY$backgK\]\$(__git_ps1)\[$textB\] \$\[\033[00m\] "
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-source /usr/local/share/chruby/chruby.sh
-source /usr/local/share/chruby/auto.sh
-
-# Setting PATH for MacPython 2.5
-# The orginal version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/Current/bin:${PATH}"
-export PATH
+export PS1="$textC$backgK\u@\h$textM$backgK \w$textY$backgK\$(__git_ps1)$textB \$\[\033[00m\] "
 
 ### Env variables for ruby stuff ###
 export RUBY_GC_MALLOC_LIMIT=90000000
@@ -59,6 +50,8 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 ### aliases ###
 alias bunstubs="bundle install --standalone --binstubs"
+alias mixtest="NO_SMOKE=1 mix test_all"
+alias lockscreen="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 
 ### Env variabls for Vanguard deployment ###
 export PATH=$PATH:~/bin/ec2-api-tools-1.3-57419/bin
@@ -66,3 +59,10 @@ export EC2_HOME=~/bin/ec2-api-tools-1.3-57419
 export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home
 
 export HOMEBREW_GITHUB_API_TOKEN=`cat ~/.homebrew_github_api_token`
+
+eval "$(pyenv init -)"
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
+
+source ~/.iterm2_shell_integration.`basename $SHELL`
+
