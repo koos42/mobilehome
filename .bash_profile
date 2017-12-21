@@ -52,6 +52,10 @@ export PATH="/usr/local/heroku/bin:$PATH"
 alias bunstubs="bundle install --standalone --binstubs"
 alias mixtest="NO_SMOKE=1 mix test_all"
 alias lockscreen="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+alias dstopall='docker stop $(docker ps -a -q)'
+alias dclean='docker rm $(docker ps -a -q)'
+alias dcleani='docker rmi $(docker images -q --filter "dangling=true")'
+alias dc='docker-compose'
 
 ### Env variabls for Vanguard deployment ###
 export PATH=$PATH:~/bin/ec2-api-tools-1.3-57419/bin
@@ -64,5 +68,5 @@ eval "$(pyenv init -)"
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
 
-source ~/.iterm2_shell_integration.`basename $SHELL`
+#source ~/.iterm2_shell_integration.`basename $SHELL`
 
